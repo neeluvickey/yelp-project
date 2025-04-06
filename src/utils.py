@@ -129,47 +129,6 @@ def split_json_file(input_file: str, output_dir: str, no_of_lines: int) -> None:
         file_count += 1
 
 
-# def upload_to_s3(config_path: str) -> None:
-#     """
-#     Uploads split files from the output directory to S3, maintaining folder structure.
-#
-#     Params:
-#         config_path (str): Path to the configuration file.
-#
-#     Returns:
-#         None
-#     """
-#     from yelp_project.src.conn import aws_s3_client
-#
-#     # Parse configuration
-#     config = parse_config(config_path)
-#
-#     local_dir = config["staging"]["output_folder_path"]  # Directory containing split files
-#     bucket_name = config["aws"]["s3_bucket_name"]  # S3 bucket name
-#     s3_bucket_path = config["aws"]["s3_bucket_path"].rstrip("/")  # Remove trailing "/"
-#
-#     # Extract prefix after "s3://bucket-name/"
-#     s3_prefix = "/".join(s3_bucket_path.split("/")[3:])  # This gives "neelu"
-#
-#     # Get S3 client from conn.py
-#     s3_client = aws_s3_client(config_path)
-#
-#     # Upload all files inside `output_folder_path`
-#     for root, _, files in os.walk(local_dir):
-#         for file in files:
-#             local_file_path = os.path.join(root, file)
-#             local_file_path = str(local_file_path)
-#
-#             # Extract relative path to maintain folder structure
-#             relative_path = os.path.relpath(local_file_path, local_dir).replace("\\", "/")
-#
-#             # Correct S3 key
-#             s3_key = f"{s3_prefix}/{relative_path}".lstrip("/")  # Ensure no leading "/"
-#
-#             print(f"Uploading {local_file_path} to s3://{bucket_name}/{s3_key}")
-#             s3_client.upload_file(local_file_path, bucket_name, s3_key)
-
-
 def upload_file_to_s3(s3_client, bucket_name, s3_key, local_file_path):
     """
     Upload a single file to S3.
